@@ -123,6 +123,6 @@ class StellarburgersFeedLocators:
     # Раздел "В работе" с номером последнего заказа
     IN_PROGRESS_ORDER_NUMBER = (By.CSS_SELECTOR, ".OrderFeed_orderList__cBvyi li.text_type_digits-default")
 
-    ORDER_MODAL_CLOSE = (By.CSS_SELECTOR, "button.Modal_modal__close_modified__3V5XS")
-
     ORDER_MODAL_OVERLAY = (By.CLASS_NAME, "Modal_modal_overlay__x2ZCr")
+
+    ORDER_MODAL_CLOSE = (By.CLASS_NAME, "Modal_modal_opened__3ISw4")

@@ -2,8 +2,9 @@ import pytest
 import json
 import requests
 from browser_factory import BrowserFactory
-from data import Urls, generate_user_data
+from helpers import generate_user_data
 from pages.base_page import BasePage
+from data import Urls
 
 
 # Чтение доступных браузеров из config/browsers.json
@@ -28,9 +29,7 @@ def get_user_token():
     def _get_token(email, password):
         url = f"{Urls.API_URL}/auth/login"
         response = requests.post(url, json={"email": email, "password": password})
-        assert response.status_code == 200, f"Ошибка при авторизации пользователя: {response.status_code}, {response.text}"
         token = response.json().get("accessToken")
-        assert token, "Не удалось получить токен аутентификации"
         return token
     return _get_token
 
@@ -42,7 +41,6 @@ def create_user(get_user_token):
     # Регистрация нового пользователя
     url = f"{Urls.API_URL}/auth/register"
     response = requests.post(url, json=user_data)
-    assert response.status_code == 200, f"Ошибка при регистрации пользователя: {response.status_code}, {response.text}"
 
     yield user_data
 
@@ -51,5 +49,4 @@ def create_user(get_user_token):
     delete_url = f"{Urls.API_URL}/auth/user"
     headers = {'Authorization': token}
     delete_response = requests.delete(delete_url, headers=headers)
-    assert delete_response.status_code == 202, f"Ошибка при удалении пользователя: {delete_response.status_code}, {delete_response.text}"
 

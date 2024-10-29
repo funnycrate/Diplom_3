@@ -1,13 +1,9 @@
-from locators import StellarBurgersRecoveryLocators, StellarBurgersLoginLocators
-from pages.base_page import *
+from locators import StellarBurgersRecoveryLocators
+from pages.base_page import BasePage
 import allure
 from data import Urls
 
 class RecoveryPage(BasePage):
-
-    @allure.step('Переход на страницу восстановления пароля')
-    def go_to_recovery_page(self):
-        self.click_to_element(StellarBurgersLoginLocators.FORGOT_PASS_LNK)
 
     @allure.step('Ввод электронной почты для восстановления')
     def input_recovery_email(self, email):
@@ -17,7 +13,7 @@ class RecoveryPage(BasePage):
     def click_recovery_button(self):
         self.click_to_element(StellarBurgersRecoveryLocators.RECOVERY_BTN)
         # Костыль для прохождения теста
-        WebDriverWait(self.driver, 10).until(EC.url_to_be(Urls.RESET_PASS_URL))
+        self.wait_for_url(Urls.RESET_PASS_URL)
 
     @allure.step('Показать/скрыть пароль')
     def toggle_password_visibility(self):
@@ -25,8 +21,8 @@ class RecoveryPage(BasePage):
 
     @allure.step('Проверка, что поле пароля активно')
     def is_password_field_active(self):
-        return self.wait_element(StellarBurgersRecoveryLocators.RECOVERY_PASSWORD_ACTIVE_FLD)
+        return self.wait_for_visibility(StellarBurgersRecoveryLocators.RECOVERY_PASSWORD_ACTIVE_FLD)
 
     @allure.step('Проверка, что поле пароля неактивно')
     def is_password_field_inactive(self):
-        return self.wait_element(StellarBurgersRecoveryLocators.RECOVERY_PASSWORD_NO_ACTIVE_FLD)
+        return self.wait_for_visibility(StellarBurgersRecoveryLocators.RECOVERY_PASSWORD_NO_ACTIVE_FLD)
